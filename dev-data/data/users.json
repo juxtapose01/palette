@@ -1,0 +1,72 @@
+[
+  {
+    "_id": "5f8d0d55b54764421b7156d8",
+    "name": "John Doe",
+    "email": "john.doe@example.com",
+    "photo": "default.jpg",
+    "role": "user",
+    "password": "Juxtapose01$",
+    "confirmPassword": "Juxtapose01$",
+    "active": true
+  },
+  {
+    "_id": "5f8d0d55b54764421b7156d9",
+    "name": "Jane Smith",
+    "email": "jane.smith@example.com",
+    "photo": "default.jpg",
+    "role": "user",
+    "password": "Juxtapose01$",
+    "confirmPassword": "Juxtapose01$",
+    "active": true
+  },
+  {
+    "_id": "5f8d0d55b54764421b7156da",
+    "name": "Alice Johnson",
+    "email": "alice.johnson@example.com",
+    "photo": "default.jpg",
+    "role": "artist",
+    "password": "Juxtapose01$",
+    "confirmPassword": "Juxtapose01$",
+    "active": true
+  },
+  {
+    "_id": "5f8d0d55b54764421b7156db",
+    "name": "Bob Brown",
+    "email": "bob.brown@example.com",
+    "photo": "default.jpg",
+    "role": "artist",
+    "password": "Juxtapose01$",
+    "confirmPassword": "Juxtapose01$",
+    "active": true
+  },
+  {
+    "_id": "6662836df448891d3074f97e",
+    "name": "admin",
+    "email": "admin@paletteprowess.io",
+    "photo": "default.jpg",
+    "role": "admin",
+    "password": "Juxtapose01$",
+    "confirmPassword": "Juxtapose01$",
+    "active": true
+  },
+  {
+    "_id": "5f8d0d55b54764421b7156de",
+    "name": "Eve Martin",
+    "email": "eve.martin@example.com",
+    "photo": "default.jpg",
+    "role": "vip",
+    "password": "Juxtapose01$",
+    "confirmPassword": "Juxtapose01$",
+    "active": true
+  },
+  {
+    "_id": "5f8d0d55b54764421b7156df",
+    "name": "Frank Moore",
+    "email": "frank.moore@example.com",
+    "photo": "default.jpg",
+    "role": "vip",
+    "password": "Juxtapose01$",
+    "confirmPassword": "Juxtapose01$",
+    "active": true
+  }
+]
