@@ -1,0 +1,138 @@
+extends base
+
+block append head 
+  script(src='https://js.stripe.com/v3/')
+  script(src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous")
+
+mixin reviewCard(review)
+    .reviews__card
+        .reviews__avatar
+            img.reviews__avatar-img(src=`/img/users/${review.user.photo}`, alt=`${review.user.name}`)
+            h6.reviews__user= review.user.name
+        p.reviews__text= review.customReview
+        .reviews__rating
+            each star in [1, 2, 3, 4, 5]
+                svg.reviews__star(class=`reviews__star--${review.rating >= star ? 'active' : 'inactive'}`)
+                    use(xlink:href='/img/icons.svg#icon-star')
+
+
+
+mixin overviewBox(label, text, icon)
+    .overview-box__detail
+        if icon.startsWith('i.')
+            i(class=icon, style="color: #067c89")
+        else
+            svg.overview-box__icon
+                use(xlink:href=`/img/icons.svg#icon-${icon}`)
+        span.overview-box__label= label
+        span.overview-box__text= text
+
+block content
+    section.section-header
+        .header__hero
+            .header__hero-overlay &nbsp;
+            img.header__hero-img(src=`/img/custom_paintings/${customPaint.shoeImages[0]}`, alt=`${customPaint.shoeType}`)
+
+        .heading-box
+            h1.heading-primary
+                span= customPaint.shoeType
+            //- .heading-box__group
+            //-     .heading-box__detail
+            //-         svg.heading-box__icon
+            //-             use(xlink:href='/img/icons.svg#icon-clock')
+            //-         span.heading-box__text= `${customPaint.brushTime} hours`
+            //-     .heading-box__detail
+            //-         svg.heading-box__icon
+            //-             use(xlink:href='/img/icons.svg#icon-map-pin')
+            //-         span.heading-box__text= customPaint.medium
+
+    section.section-description
+        .overview-box
+            div
+                .overview-box__group
+                    h2.heading-secondary.ma-bt-lg Quick facts
+
+                       .custom-box
+                            .custom-box__item
+                                svg.custom-box__icon
+                                   img.custom-box__icon(src='/img/shoe-svgrepo-com.svg', alt='Brush Icon')
+                                span.custom-box__label SHOESIZE
+                                span.custom-box__text= `${customPaint.shoeSize}`
+                            .custom-box__item
+                                svg.custom-box__icon
+                                   img.custom-box__icon(src='/img/artist-brush-svgrepo-com.svg', alt='Brush Icon')
+                                span.custom-box__label BRUSHTIME
+                                span.custom-box__text=  `${customPaint.brushTime} hours`
+                            .custom-box__item
+                                svg.custom-box__icon
+                                   img.custom-box__icon(src='/img/art-bucket-creative-design-paint-painting-svgrepo-com.svg', alt='Brush Icon')
+                                span.custom-box__label MEDIUM
+                                span.custom-box__text= `${customPaint.medium}` 
+                            .custom-box__item
+                                svg.custom-box__icon
+                                   img.custom-box__icon(src='/img/star-svgrepo-com.svg', alt='Brush Icon')
+                                span.custom-box__label RATING
+                                span.custom-box__text= `${customPaint.ratingsAverage}/5`
+
+                    //- +overviewBox('Difficulty', 'Medium', 'trending-up')
+                    //- +overviewBox('Rating',`${customPaint.ratingsAverage}/5`, 'star')
+                    //- +overviewBox('Brushtime', `${customPaint.brushTime} hours`, 'star')
+                    //- +overviewBox('Medium', `${customPaint.medium}`, 'star')
+                    
+                    
+
+                
+                      
+
+                .overview-box__group
+                    h2.heading-secondary.ma-bt-lg Artist
+                    br
+                    each artist in customPaint.artist
+                        .overview-box__detail
+                        
+                            img.overview-box__img(src=`/img/users/${artist.photo}`, alt=`${artist.name}`)
+                            span.overview-box__text= artist.name
+
+        .description-box
+            h2.heading-secondary.ma-bt-lg= `About the ${customPaint.summary}`
+            p.description__text= `${customPaint.otherDetails}`
+                   
+            p.description__text= `${customPaint.description}`
+                    
+
+    section.section-pictures
+        each img, i in customPaint.OtherShoeImages
+            .picture-box
+               img.picture-box__img(src=`/img/custom_paintings/${img}`, alt=`${customPaint.name} ${i + 1}`, class=`picture-box__img--${i + 1}`)
+
+    section.section-vedio
+    video#video(autoplay loop muted)
+        source(src='/videos/timelapseshoes.mp4' type="video/mp4")
+
+
+    section.section-reviews
+        .reviews
+            if customPaint.customReviews && customPaint.customReviews.length > 0
+                each review in customPaint.customReviews 
+                    +reviewCard(review)
+            else
+                p 🌟 Be the First to Share Your Thoughts! 🌟
+
+            
+
+    section.section-cta
+        .cta
+            .cta__img.cta__img--logo
+             img(src='/img/cat-logo.png', alt='Palette logo')
+            img.cta__img.cta__img--1(src=`/img/custom_paintings/${customPaint.OtherShoeImages[0]}`, alt='Shoe Paintings')
+            img.cta__img.cta__img--2(src=`/img/custom_paintings/${customPaint.OtherShoeImages[1]}`, alt='Shoe Paintings')
+            
+            .cta__content
+                h2.heading-secondary-one What are you waiting for?
+                p.cta__text Abstract Reverie: Dreams Unfurling in Color. Make it yours today!
+
+                if user
+                   button.btn.btn--green.span-all-rows#order-custom-painting(data-custom-painting-id=customPaint.id) Order shoes now!
+                else 
+                   a.btn.btn--green.span-all-rows(href='/login') Order Now
+

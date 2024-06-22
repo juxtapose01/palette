@@ -8,13 +8,6 @@ const reviewRouter = require('./reviewRoutes');
 
 router.use(authController.protect);
 
-// router
-//   .route('/:paintingId/reviews')
-//   .post(
-//     authController.protect,
-//     authController.restrictTo('user'),
-//     reviewController.createReview
-//   );
 router.use('/:paintingId/reviews', reviewRouter);
 router
   .route('/top-5-affordable-art-pieces')
@@ -42,6 +35,8 @@ router
   .patch(
     authController.protect,
     authController.restrictTo('admin', 'artist'),
+    paintController.uploadPaintingImages,
+    paintController.resizePaintingImages,
     paintController.updatePainting
   )
   .delete(

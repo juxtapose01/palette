@@ -1,0 +1,133 @@
+extends base
+
+block append head 
+    script(src='https://js.stripe.com/v3/')
+    script(src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous")
+
+mixin reviewCard(review)
+    .reviews__card
+        .reviews__avatar
+            img.reviews__avatar-img(src=`/img/users/${review.user.photo}`, alt=`${review.user.name}`)
+            h6.reviews__user= review.user.name
+        p.reviews__text= review.review
+        .reviews__rating
+            each star in [1, 2, 3, 4, 5]
+                svg.reviews__star(class=`reviews__star--${review.rating >= star ? 'active' : 'inactive'}`)
+                    use(xlink:href='/img/icons.svg#icon-star')
+
+mixin overviewBox(label, text, icon)
+    .overview-box__detail
+        if icon.startsWith('i.')
+            i(class=icon, style="color: #067c89")
+        else
+            svg.overview-box__icon
+                use(xlink:href=`/img/icons.svg#icon-${icon}`)
+        if imgSrc
+            img.external-icon(src=imgSrc, alt=label)
+        span.overview-box__label= label
+        span.overview-box__text= text
+
+block content
+    section.section-header
+        .header__hero
+            .header__hero-overlay &nbsp;
+            img.header__hero-img(src=`/img/paintings/${painting.imageCover}`, alt=`${painting.name}`)
+
+        .heading-box
+            h1.heading-primary
+                span=`${painting.name}`
+            //- .heading-box__group
+            //-     .heading-box__detail
+            //-         svg.heading-box__icon
+            //-             use(xlink:href='/img/icons.svg#icon-clock')
+            //-         span.heading-box__text= `${painting.brushTime} hours`
+            //-     .heading-box__detail
+            //-         svg.heading-box__icon
+            //-             use(xlink:href='/img/icons.svg#icon-map-pin')
+            //-         span.heading-box__text= `${painting.medium}`
+
+    section.section-description
+        .overview-box
+            div
+                .overview-box__group
+                    h2.heading-secondary.ma-bt-lg Quick facts
+                        .custom-box
+                            .custom-box__item
+                                svg.custom-box__icon
+                                   img.custom-box__icon(src='/img/picture-frame-svgrepo-com.svg', alt='Brush Icon')
+                                span.custom-box__label DIMENSIONS
+                                span.custom-box__text= `${painting.dimensions}`
+                            .custom-box__item
+                                svg.custom-box__icon
+                                   img.custom-box__icon(src='/img/artist-brush-svgrepo-com.svg', alt='Brush Icon')
+                                span.custom-box__label BRUSHTIME
+                                span.custom-box__text=  `${painting.brushTime} hours`
+                            .custom-box__item
+                                svg.custom-box__icon
+                                   img.custom-box__icon(src='/img/art-bucket-creative-design-paint-painting-svgrepo-com.svg', alt='Brush Icon')
+                                span.custom-box__label MEDIUM
+                                span.custom-box__text= `${painting.medium}` 
+                            .custom-box__item
+                                svg.custom-box__icon
+                                   img.custom-box__icon(src='/img/star-svgrepo-com.svg', alt='Brush Icon')
+                                span.custom-box__label RATING
+                                span.custom-box__text= `${painting.ratingsAverage}/5`    
+                    //- +overviewBox(`${painting.dimensions}`, `${painting.otherDetails}`, 'calendar')
+                    //- +overviewBox('DIFFICULTY', 'Medium', 'trending-up')
+                    //- +overviewBox('Category', `${painting.category}`, 'user')
+                    //- +overviewBox('Rating', `${painting.ratingsAverage}/5`, 'star')
+                    //- +overviewBox('Medium', `${painting.medium}`, 'star')
+                    //- +overviewBox('Brushtime', `${painting.brushTime} hours`, 'star')
+                    //- +overviewBox('Brushtime', `${painting.brushTime} hours`,  '/img/paint-brush-Kittl.svg')
+                     
+
+
+
+                .overview-box__group
+                    h2.heading-secondary.ma-bt-lg Artist
+                    each art in painting.artist 
+                        .overview-box__detail
+                            img.overview-box__img(src=`/img/users/${art.photo}`, alt=`${art.name}`)
+                            span.overview-box__text= art.name 
+
+        .description-box
+            h2.heading-secondary.ma-bt-lg= `About the ${painting.name}` 
+            p.description__text
+            p.description__text= `${painting.summary}`
+            p.description__text= `${painting.description}`
+
+    section.section-pictures
+        each img, i in painting.images
+            .picture-box
+                img.picture-box__img(src=`/img/paintings/${img}`, alt=`${painting.name} ${i+1}`, class=`picture-box__img--${i+1}`)
+    
+    section.section-vedio
+    video#video(autoplay loop muted)
+        source(src='/videos/timeplase.mp4' type="video/mp4")
+        
+   
+
+    section.section-reviews
+        .reviews
+            //- each review in painting.reviews 
+            //-     +reviewCard(review)
+            if painting.reviews  && painting.reviews .length > 0
+                each review in painting.reviews 
+                    +reviewCard(review)
+            else
+                p 🌟 Be the First to Share Your Thoughts! 🌟        
+
+    section.section-cta
+        .cta
+            .cta__img.cta__img--logo
+                img(src='/img/cat-logo.png', alt='Palette logo')
+            img.cta__img.cta__img--1(src=`/img/paintings/${painting.images[0]}`, alt='Painting picture')
+            img.cta__img.cta__img--2(src=`/img/paintings/${painting.images[1]}`, alt='Painting picture')
+            .cta__content
+                h2.heading-secondary-one What are you waiting for?
+                p.cta__text Abstract Reverie: Dreams Unfurling in Color. Make it yours today!
+
+                if user
+                    button.btn.btn--green.span-all-rows#order-painting(data-painting-id=`${painting.id}`) Order painting now!
+                else 
+                    a.btn.btn--green.span-all-rows(href='/login') Order Now

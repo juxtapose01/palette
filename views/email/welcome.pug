@@ -1,0 +1,24 @@
+extends baseEmail
+
+block content
+    p Hi #{firstName},
+    | We're delighted to welcome you! Whether you're a seasoned art enthusiast or just starting to explore the world of creativity, Artistry Galore is your gateway to a realm where imagination takes flight and every creation tells a unique story.
+    br
+    | Immerse yourself in our diverse collection of paintings, shoes, and more, crafted by me. From abstract wonders to classical masterpieces, there's something here to captivate every art lover.
+    br
+    | Thank you for joining Artistry Galore. We look forward to sharing the beauty and inspiration of art with you.
+    br
+    | Happy browsing! 🖌️🌟
+    p We're thrilled to have you join our community! Feel free to upload your user photo so we can get to know you better!
+    table.btn.btn-primary(role='presentation', border='0', cellpadding='0', cellspacing='0')
+        tbody
+            tr
+                td(align='left')
+                    table(role='presentation', border='0', cellpadding='0', cellspacing='0')
+                        tbody
+                            tr
+                                td
+                                    a(href=`${url}`, target='_blank') Upload user photo
+    p If you need any assistance or have questions about our platform, please don't hesitate to reach out.
+    p Best regards,
+    p - Satvika Andey.

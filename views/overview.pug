@@ -1,0 +1,33 @@
+extends base
+
+block content
+  main.main
+    .card-container
+      each painting in paintings
+        .card
+          .card__header
+            .card__picture
+              .card__picture-overlay &nbsp;
+              img.card__picture-img(src=`/img/paintings/${painting.imageCover}`, alt=`${painting.name}`)
+            h3.heading-tertirary
+              span= painting.name
+          .card__details
+            //- h4.card__sub-heading Easy 5-day tour
+            p.card__text= `${painting.summary}`
+            .card__data
+              svg.card__icon
+                use(xlink:href='/img/icons.svg#icon-paint-brush')
+              span= `${painting.medium}`
+            .card__data
+              svg.card__icon
+                use(xlink:href='/img/icons.svg#icon-user')
+                each art in painting.artist  
+                    span= `${art.name}`
+          .card__footer
+            p
+              span.card__footer-value= `$ ${painting.price}`
+              //- span.card__footer-text 
+            p.card__ratings
+              span.card__footer-value= `${painting.ratingsAverage}`
+              span.card__footer-text=  ` rating (${painting.ratingsQuantity})`
+            a.btn.btn--green.btn--small(href=`/painting/${painting.slug}`) Details

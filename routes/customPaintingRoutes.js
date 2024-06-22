@@ -25,6 +25,8 @@ router
   .patch(
     authController.protect,
     authController.restrictTo('admin'),
+    customPaintingController.uploadCustomPaintingImages,
+    customPaintingController.resizeCustomPaintingImages,
     customPaintingController.updateCustomPainting
   )
   .delete(

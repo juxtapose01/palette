@@ -1,27 +1,27 @@
 const customReview = require('./../models/customReviewModal');
 const AppError = require('../utils/appError');
 const catchAsync = require('./../utils/catchAsync');
+const mongoose = require('mongoose');
 
 const factory = require('./handlerFactory');
 
 exports.getAllCustomReviews = catchAsync(async (req, res, next) => {
   let filter = {};
   if (req.params.customPaintingId)
-    filter = { painitng: req.params.customPaintingId };
+    filter = { painting: req.params.customPaintingId };
 
-  const Reviews = await customReview.find(filter);
+  const reviews = await customReview.find(filter).populate('user', 'reviews');
 
   res.status(200).json({
     status: 'success',
-    results: Reviews.length,
+    results: reviews.length,
     data: {
-      Reviews,
+      reviews,
     },
   });
 });
 
 exports.createCustomReviewsOnPaintings = catchAsync(async (req, res, next) => {
-  console.log('Custom Painting ID:', req.params.customPaintingId);
   console.log('User ID:', req.user.id);
 
   if (!req.body.customPainting)

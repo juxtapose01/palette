@@ -1,0 +1,44 @@
+extends custom_base
+
+block content
+  main.main
+    .card-container
+      if customPaints && customPaints.length > 0
+        each custom_paint in customPaints
+          .card
+            .card__header
+              .card__picture
+                .card__picture-overlay &nbsp;
+                img.card__picture-img(src=`/img/custom_paintings/${custom_paint.shoeImages[0]}`, alt=`${custom_paint.shoeType}`)
+              h3.heading-tertirary
+                span= custom_paint.shoeType
+            .card__details
+              h4.card__sub-heading= custom_paint.inspiredFrom
+              p.card__text= custom_paint.summary
+              .card__data
+                svg.card__icon
+                  use(xlink:href='/img/icons.svg#icon-paint-brush')
+                span= custom_paint.shoeSize
+              .card__data
+                svg.card__icon
+                  use(xlink:href='/img/icons.svg#icon-calendar')
+                span= custom_paint.medium
+              .card__data
+                svg.card__icon
+                  use(xlink:href='/img/icons.svg#icon-flag')
+                span= `${custom_paint.brushTime} hours`
+              .card__data
+                svg.card__icon
+                  use(xlink:href='/img/icons.svg#icon-user')
+                  each artist in custom_paint.artist
+                    span= artist.name
+            .card__footer
+              p
+                span.card__footer-value= custom_paint.pricePerPair
+                span.card__footer-text per pair
+              p.card__ratings
+                span.card__footer-value= custom_paint.ratingsAverage
+                span.card__footer-text= `rating (${custom_paint.ratingsQuantity})`
+              a.btn.btn--green.btn--small(href=`/custom-painting-on-shoes/${custom_paint.slug}`) Details
+      else
+        p No custom paintings found.

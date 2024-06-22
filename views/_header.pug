@@ -1,0 +1,17 @@
+header.header
+  nav.nav.nav--tours
+    a.nav__el(href='/') All Paintings
+
+  .header__logo
+    //- img(src='/img/bird.svg', alt='Palette logo', width='50', height='100')
+
+  nav.nav.nav--user
+    if user
+      a.nav__el.nav__el--logout Log out 
+      a.nav__el(href='/me')
+        img.circle-img(src=`/img/users/${user.photo}`, alt=`Photo of ${user.name}`)
+
+        span.nav__user-name= user.name.split(' ')[0]
+    else
+      a.nav__el(href='/login') Log in
+      a.nav__el(href='/signup') Sign Up

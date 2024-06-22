@@ -59,11 +59,33 @@ const customPaintingSchema = new mongoose.Schema({
     trim: true,
     required: [true, 'A custom painting must have a description'],
   },
+  inspiredFrom: {
+    type: String,
+    trim: true,
+    required: [
+      true,
+      'A custom painting must declare from which source it is inspired from',
+    ],
+  },
+  medium: {
+    type: String,
+    trim: true,
+    required: [
+      true,
+      'A custom painting must declare which painting medium is used',
+    ],
+  },
+  OtherShoeImages: [String],
+  brushTime: {
+    type: String,
+    trim: true,
+    required: [true, 'A custom painting must mention brush time in hours'],
+  },
   artist: [{ type: mongoose.Schema.ObjectId, ref: 'User' }],
-  review: [
+  customReviews: [
     {
       type: mongoose.Schema.ObjectId,
-      ref: 'Review',
+      ref: 'customReview',
     },
   ],
 });
@@ -71,7 +93,7 @@ const customPaintingSchema = new mongoose.Schema({
 customPaintingSchema.index({ pricePerPair: 1, ratingsAverage: -1 });
 customPaintingSchema.index({ slug: 1 });
 
-customPaintingSchema.virtual('customReview', {
+customPaintingSchema.virtual('virtualCustomReviews', {
   ref: 'customReview',
   foreignField: 'customPainting',
   localField: '_id',

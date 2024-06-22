@@ -21,20 +21,26 @@ exports.getAllReviews = catchAsync(async (req, res, next) => {
 });
 
 exports.createReview = catchAsync(async (req, res, next) => {
-  if (!req.body.painitng) req.body.painitng = req.params.paintingId;
+  // Ensure painting and user IDs are set
+  if (!req.body.painting) req.body.painting = req.params.paintingId;
   if (!req.body.user) req.body.user = req.user.id;
 
+  // Find the painting
   const painting = await Painting.findById(req.body.painting);
+
+  // If painting not found, return error
   if (!painting) {
     return next(new AppError('No painting found with that ID', 404));
   }
 
+  // Check if user has permission to review this painting
   if (req.user.role === 'user' && !painting.accessLevel.includes('user')) {
     return next(
       new AppError('You do not have permission to review this painting', 403)
     );
   }
 
+  // Create the review
   const review = await Review.create(req.body);
   res.status(201).json({
     status: 'success',

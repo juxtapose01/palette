@@ -17,7 +17,7 @@ const customReviewSchema = new mongoose.Schema(
     },
     customPainting: {
       type: mongoose.Schema.ObjectId,
-      ref: 'customPainting',
+      ref: 'CustomPainting',
     },
     user: {
       type: mongoose.Schema.ObjectId,
@@ -72,7 +72,7 @@ customReviewSchema.statics.calAverageRatings = async function (
 };
 
 customReviewSchema.post('save', function () {
-  customReview.calAverageRatings(this.customPainting);
+  this.constructor.calAverageRatings(this.customPainting);
 });
 
 const customReview = mongoose.model('customReview', customReviewSchema);

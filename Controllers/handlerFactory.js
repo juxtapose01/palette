@@ -15,6 +15,8 @@ exports.deleteOne = (Model) =>
 
 exports.updateOne = (Model) =>
   catchAsync(async (req, res, next) => {
+    console.log('Request Body:', req.body);
+    console.log('Request Params ID:', req.params.id);
     const doc = await Model.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
       runValidators: true,
@@ -28,13 +30,20 @@ exports.updateOne = (Model) =>
     });
   });
 
-exports.getOne = (Model) =>
+exports.getOne = (Model, popOptions) =>
   catchAsync(async (req, res, next) => {
-    const doc = await Model.findById(req.params.id);
+    let query = Model.findById(req.params.id);
+    if (popOptions) {
+      query = query.populate(popOptions);
+    }
+
+    const doc = await query;
+
     if (!doc) {
       return next(new AppError('No document found with that ID', 404));
     }
-    res.status(201).json({
+
+    res.status(200).json({
       status: 'success',
       data: doc,
     });
